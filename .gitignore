@@ -1,0 +1,33 @@
+
+# Dependências gerenciadas pelo Composer
+vendor/
+composer.phar
+
+# Arquivos de cache
+.php-cs-fixer.cache
+.phpunit.cache/
+.phpunit.result.cache
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Arquivos de configuração locais
+config/secrets/
+supervisord.*
+
+# Arquivos de cache e logs
+var/
+var/cache/
+var/log/
+logs/
+
+# Arquivos de build/distribuição
+build/
+dist/
+public/bundles/
+node_modules/
+
+# Docker
+.docker/database/data/*
