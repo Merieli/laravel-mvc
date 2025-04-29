@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.neon": "yaml"
+    },
+    "material-icon-theme.files.associations": {
+        "*.neon": "less",
+    }
+}

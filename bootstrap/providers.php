@@ -1,5 +1,5 @@
 <?php
 
 return [
-    App\Providers\AppServiceProvider::class,
+    Meri\NameApp\Providers\AppServiceProvider::class,
 ];

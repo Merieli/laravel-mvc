@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
+            "Meri\\NameApp\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
@@ -45,7 +45,7 @@
     },
     "scripts": {
         "lint:pint": "pint",
-        "check": "phpstan analyze",
+        "check": "phpstan analyze app",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -68,7 +68,15 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
+        ],
+        "valid": [
+            "@lint:pint",
+            "@check"
         ]
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests",
+        "valid": "Run all linters and checks (phpstan, pint)"
     },
     "extra": {
         "laravel": {
