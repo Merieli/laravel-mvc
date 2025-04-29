@@ -1,5 +1,7 @@
-# Defome um valor padrão para a versão do PHP caso não seja passado
+# Informa um valor padrão para a versão do PHP caso não seja passado
 ARG PHP_VERSION=8.3.20-fpm-alpine3.20
+
+FROM node:22-alpine AS node-stage
 
 FROM php:${PHP_VERSION}
 
@@ -15,8 +17,6 @@ ENV APP_DIR="/var/www/${PROJECT_NAME}"
 # --------------------------------------------------------------
 # Instalação de dependências do sistema operacional
 # --------------------------------------------------------------
-
-# Alpine usa apk em vez de apt-get
 RUN apk update && apk add --no-cache \
     supervisor \
     zlib-dev \
@@ -28,7 +28,9 @@ RUN apk update && apk add --no-cache \
     curl \
     make \
     gnu-libiconv-dev \
-    oniguruma-dev
+    oniguruma-dev\
+    git
+# Adiciona o Git para lidar com falhas de instalação de dependências do composer
 
 # --------------------------------------------------------------
 # EXTENSÕES DO PHP
@@ -65,13 +67,13 @@ COPY --chown=${USER_NAME}:${USER_NAME} composer* .
 # Altera o proprietário e o grupo do diretório da aplicação - definido pela variável $APP_DIR
 RUN chown ${USER_NAME}:${USER_NAME} $APP_DIR
 
-# Copio tudo que está na pasta src para dentro do container usando o usuário
-COPY --chown=${USER_NAME}:${USER_NAME} ./src .
+# Copio tudo que está na pasta para dentro do container usando o usuário
+COPY --chown=${USER_NAME}:${USER_NAME} . .
 
-# Remove as dependências antigas do composer
+# --------------------------------------------------------------
+# Remove as dependências antigas e instala as novas do composer
+# --------------------------------------------------------------
 RUN [ -d "vendor" ] && rm -rf vendor || true
-RUN composer install --no-interaction
-
 
 # --------------------------------------------------------------
 # Cria alias para executar o comando do Composer
@@ -82,5 +84,23 @@ RUN echo '#!/bin/sh' > /usr/local/bin/cmp && \
     chmod +x /usr/local/bin/cmp
 
 # --------------------------------------------------------------
+# Instala o Node para os comandos do npm
+# --------------------------------------------------------------
+COPY --from=node-stage /usr/local/bin/node /usr/local/bin/
+COPY --from=node-stage /usr/local/lib/node_modules /usr/local/lib/node_modules
+
+# Cria os links simbólicos como root (antes de mudar para usuário não-root)
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
+    ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+
+# --------------------------------------------------------------
+# Instala o Laravel
+# --------------------------------------------------------------
+USER ${USER_NAME}
+
+RUN composer global require laravel/installer
+
+# Adiciona o diretório bin do composer ao PATH para o usuário
+ENV PATH="/home/${USER_NAME}/.composer/vendor/bin:${PATH}"
 
 USER $USER_NAME

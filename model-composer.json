@@ -1,0 +1,36 @@
+{
+    "name": "merieli/project",
+    "version": "v0.0.0",
+    "authors": [
+        {
+            "name": "Merieli Manzano",
+            "email": "merieli.amanzano@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Meri\\NameApp\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.3"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "phpunit/phpunit": "^12",
+        "phpstan/phpstan": "^2"
+    },
+    "scripts": {
+        "test": "phpunit tests/",
+        "lint:stan": "phpstan analyse src",
+        "lint:cs-fixer": "php-cs-fixer fix src",
+        "lint": [
+            "@lint:stan",
+            "@lint:cs-fixer"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests",
+        "lint": "Run all linters (phpstan, php-cs-fixer)"
+    }
+}
