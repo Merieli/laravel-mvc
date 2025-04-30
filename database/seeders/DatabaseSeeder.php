@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Meri\NameApp\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Meri\NameApp\Models\User;
 
 class DatabaseSeeder extends Seeder
 {

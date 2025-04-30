@@ -28,9 +28,7 @@ RUN apk update && apk add --no-cache \
     curl \
     make \
     gnu-libiconv-dev \
-    oniguruma-dev\
-    git
-# Adiciona o Git para lidar com falhas de instalação de dependências do composer
+    oniguruma-dev
 
 # --------------------------------------------------------------
 # EXTENSÕES DO PHP
@@ -60,9 +58,6 @@ RUN addgroup -g ${GID} ${USER_NAME} \
 
 # --------------------------------------------------------------
 WORKDIR $APP_DIR
-
-# Copia os arquivos do composer.json e composer.lock para dentro do container
-COPY --chown=${USER_NAME}:${USER_NAME} composer* .
 
 # Altera o proprietário e o grupo do diretório da aplicação - definido pela variável $APP_DIR
 RUN chown ${USER_NAME}:${USER_NAME} $APP_DIR

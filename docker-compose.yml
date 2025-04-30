@@ -15,7 +15,6 @@ services:
                 USER_NAME: "${USER:-www-data}"
         ports:
             - 8086:80
-            - 443:443 # https
         volumes:
             # Bind mount - que conecta o diretório atual ao contêiner da aplicação, excluindo o vendor
             - ./:/var/www/${COMPOSE_PROJECT_NAME}
