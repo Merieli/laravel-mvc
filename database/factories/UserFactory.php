@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+// Factories -> é uma forma de criar vários dados falsos de uma só vez para popular o banco de dados
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Meri\NameApp\Models\User>
  */

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Meri\NameApp\Models\User;
 
+// Seeders -> são criadores de dados para popular o banco de dados quando uma aplicação é criada "Como a criação de usuários padrão para o sistema funcionar, por exemplo"
 class DatabaseSeeder extends Seeder
 {
     /**
